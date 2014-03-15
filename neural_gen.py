@@ -142,4 +142,7 @@ class neural:
         return outputs
 
     def convert(self, value):
-        return (1.0 / (1.0 + math.exp(-1.0 * value)))
+        try:
+            return 1.0 / (1.0 + math.exp(-1.0 * value))
+        except:
+            return 0

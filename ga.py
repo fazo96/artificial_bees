@@ -78,7 +78,6 @@ class population:
         return ind
 
     def mutate(self, i1):
-
         for i in range(0, self.gnum):
             if random.uniform(0, 100) < self.mutation_rate:
                 shift = random.uniform(-0.1, 0.1)

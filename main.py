@@ -30,30 +30,32 @@ root.title("artificial bees")
 
 bee_count = 20
 flower_count = 40
-hive = (300, 300)
 total = 1
+sizeX = 1200
+sizeY = 700
+hive = (sizeX/2, sizeY/2)
 bee = list()
 bee_old = list()
 flower = list()
 bee_net = list()
 
 for i in range(0, bee_count):
-    bee_net.append((neural_gen.neural(2, 6, 3, 7),
+    bee_net.append((neural_gen.neural(2, 6, 3, 5),
         neural_gen.neural(1, 1, 2, 0)))
-    bee.append((random.uniform(0, 600), random.uniform(0, 600), 0))
-    bee_old.append((random.uniform(0, 600), random.uniform(0, 600), 0))
+    bee.append((random.uniform(0, sizeX), random.uniform(0, sizeY), 0))
+    bee_old.append((random.uniform(0, sizeX), random.uniform(0, sizeY), 0))
 
 for i in range(0, bee_count):
     bee_net[i][0].init()
     bee_net[i][1].init()
 
 for i in range(0, flower_count):
-    x = random.randrange(50, 550)
+    x = random.randrange(50, sizeX-50)
     while x > hive[0] - 60 and x < hive[0] + 60:
         x = random.randrange(50, 550)
     y = random.randrange(50, 550)
     while y > hive[1] - 60 and y < hive[1] + 60:
-        y = random.randrange(50, 550)
+        y = random.randrange(50, sizeY-50)
     flower.append((x, y, 0))
 
 w_num1 = bee_net[0][0].get_num_weights()
@@ -124,12 +126,12 @@ def move(b, output):
     y = y + dy
 
     if x < -10:
-        x = 600
-    if x > 610:
+        x = sizeX
+    if x > sizeX+10:
         x = 0
     if y < -10:
-        y = 600
-    if y > 610:
+        y = sizeY
+    if y > sizeY+10:
         y = 0
 
     bee[b] = (x, y, f)
@@ -197,14 +199,14 @@ fit = list()
 for i in range(0, bee_count):
     fit.append(0.0)
 
-cw = 600
-ch = 600
+cw = sizeX
+ch = sizeY
 
 chart_1 = Canvas(root, width=cw, height=ch, background="black")
 chart_1.grid(row=0, column=0)
 
 while 1:
-    if timer > 500:
+    if timer > 1000:
         timer = 0
         for i in range(0, bee_count):
             fit[i] = bee_net[i][0].get_fitness()
@@ -217,7 +219,7 @@ while 1:
                 bee_net[i][j].put_weights(l[j])
 
         for i in range(0, bee_count):
-            bee[i] = ((random.uniform(0, 600), random.uniform(0, 600), 0))
+            bee[i] = ((random.uniform(0, sizeX), random.uniform(0, sizeY), 0))
         gen_count = gen_count + 1
         total = 0
 
@@ -259,12 +261,12 @@ while 1:
 
     for i in range(0, flower_count):
         if flower[i][2] > 8:
-            x = random.randrange(50, 550)
+            x = random.randrange(50, sizeX-50)
             while x > hive[0] - 60 and x < hive[0] + 60:
-                x = random.randrange(50, 550)
-            y = random.randrange(50, 550)
+                x = random.randrange(50, sizeX-50)
+            y = random.randrange(50, sizeY)
             while y > hive[1] - 60 and y < hive[1] + 60:
-                y = random.randrange(50, 550)
+                y = random.randrange(50, sizeY-50)
             flower[i] = x, y, 0
 
     for i in range(0, flower_count):
